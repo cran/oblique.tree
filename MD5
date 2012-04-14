@@ -1,4 +1,4 @@
-30f9029eb8fd5ee725fade12476a5c99 *DESCRIPTION
+4e974f41b8853110447104c4341b3603 *DESCRIPTION
 c0bdfdbc35797267771ed88bbd8f17e6 *INDEX
 0d38c48a745e4e427197c8bf3300bb63 *NAMESPACE
 ebaec55d0a45560d6f6a71fb3903cfe3 *R/generate.ith.superclass.R
@@ -23,7 +23,7 @@ da032ae41b12d01c4693e9c5dfba774b *man/heart.data.Rd
 167a479f999a5db922ad5782d093c287 *man/node.impurity.Rd
 682fd184a7f8c93904d50f04551aced0 *man/oblique.split.writer.Rd
 7dcc1ed3a09f558b2c81a634fb226ea6 *man/oblique.tree.Rd
-7f43a7ca214284fb80a932a0a1cad31d *man/oblique.tree.complexity.Rd
+d1c6bccfb7efe00a61b7b84b1d727de4 *man/oblique.tree.complexity.Rd
 ca3b184f3dbdba8f503e51b23abec24e *man/oblique.tree.prune.nodes.Rd
 861f1f3c643f983b53265f3a2f7f1826 *man/plot.trim.sequence.Rd
 dff436d97fa667c9e32f683e538b1667 *man/predict.glmpath.Rd

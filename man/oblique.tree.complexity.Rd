@@ -40,10 +40,11 @@ ob.tree.on <- oblique.tree(formula		= type~.,
 ob.tree.off <- oblique.tree(formula		= type~.,
 				data		= Pima.tr,
 				oblique.splits	= "off")
-x11();par(mfrow=c(1,3))
+op <- par(mfrow=c(1,3))
 plot(ob.tree.only);text(ob.tree.only);title(main="Oblique Splits Only")
 plot(ob.tree.on);text(ob.tree.on);title(main="Oblique Splits On")
 plot(ob.tree.off);text(ob.tree.off);title(main="Oblique Splits Off")
+par(op)
 
 #calculate the complexity of a subtree
 oblique.tree:::oblique.tree.complexity(
@@ -53,13 +54,16 @@ oblique.tree:::oblique.tree.complexity(
 #calculate the complexity of each tree
 oblique.tree:::oblique.tree.complexity(
 	tree		= ob.tree.only, 
-	subtree.internal.node.names	= as.numeric(row.names(ob.tree.only$frame)[ob.tree.only$frame$var == "<leaf>"]))
+	subtree.internal.node.names	
+        = as.numeric(row.names(ob.tree.only$frame)[ob.tree.only$frame$var == "<leaf>"]))
 oblique.tree:::oblique.tree.complexity(
 	tree		= ob.tree.on, 
-	subtree.internal.node.names	= as.numeric(row.names(ob.tree.on$frame)[ob.tree.on$frame$var == "<leaf>"]))
+	subtree.internal.node.names
+	= as.numeric(row.names(ob.tree.on$frame)[ob.tree.on$frame$var == "<leaf>"]))
 oblique.tree:::oblique.tree.complexity(
 	tree		= ob.tree.off, 
-	subtree.internal.node.names	= as.numeric(row.names(ob.tree.off$frame)[ob.tree.off$frame$var == "<leaf>"]))
+	subtree.internal.node.names
+	= as.numeric(row.names(ob.tree.off$frame)[ob.tree.off$frame$var == "<leaf>"]))
 }
 \keyword{tree}
 
