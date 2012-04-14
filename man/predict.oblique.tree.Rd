@@ -5,7 +5,7 @@
   Returns predictions from a fitted \code{oblique.tree} object.
 }
 \usage{
-predict.oblique.tree(
+\method{predict}{oblique.tree}(
 	object, 
 	newdata, 
 	type = c("vector", "tree", "class", "where"), 

@@ -16,14 +16,14 @@
 		leaf.indicator)
 ###!!! dont actually need to pass this, can just figure it out again but it wastes a little calculation
 	#DESCRIPTION
-	#given a tree, the next optimal tree in the optimal tree sequence is found and returned along with all g(t) for all subtrees of the tree	
+	#given a tree, the next optimal tree in the optimal tree sequence is found and returned along with all g(t) for all subtrees of the tree
 	#OUTPUT		$tree=tree		object of class "tree" that resulting from pruning to the next optimal cost complexity value
 	#			$g.of.t			the value of g(t) for all subtrees of the tree
 	{
 #print("choose nodes to prune or trim\n");
 #browser()
 #original.tree<-tree
-		#get row numbers of internal nodes 
+		#get row numbers of internal nodes
 		internal.nodes.row.numbers <- which(!leaf.indicator)
 
 		#and the names of the leaves
@@ -48,11 +48,11 @@
 				#		|	oblique			not oblique
 				#---------------+------------------------------------------
 				#complete	|	R(T_t), R(T_trim)	R(T_t), R(t)
-				#partial	|	R(T_t), R(T_trim)	
+				#partial	|	R(T_t), R(T_trim)
 
 				#internal node applies an oblique split
 				subtree.root.name <- as.numeric(row.names(tree$frame)[subtree.row.number])
-	
+
 				#find last node for subtree T_'subtree.root.name'
 				last.node.row.number <-	last.node.of.subtree(	tree = tree,
 										subtree.root.name = subtree.root.name
@@ -61,7 +61,7 @@
 				#last.node.in.subtree.row.number now contains the number of the last node in subtree of interest
 				subtree.node.names[[subtree.index]] <- as.numeric(row.names(tree$frame)[subtree.row.number:last.node.row.number])
 				subtree.leaf.names[[subtree.index]] <- subtree.node.names[[subtree.index]][-1][subtree.node.names[[subtree.index]][-1] %in% leaf.node.names]
-	
+
 				#create a vector of T/F to indicate rows of tree$frame that are leaves from this subtree
 				subtree.leaves.rows.T.F <- row.names(tree$frame) %in% subtree.leaf.names[[subtree.index]]
 #browser()
@@ -108,7 +108,7 @@
 #	#compare frames where there are observations
 #	cbind(trimmed.trees[[subtree.index]]$frame[trimmed.trees[[subtree.index]]$frame$n != 0,-5],tree$frame[trimmed.trees[[subtree.index]]$frame$n != 0,-5])
 #	as.matrix(trimmed.trees[[subtree.index]]$frame[trimmed.trees[[subtree.index]]$frame$n != 0,-5]) == as.matrix(tree$frame[trimmed.trees[[subtree.index]]$frame$n != 0,-5])
-#	
+#
 #	#compare entire frames
 #	cbind(trimmed.trees[[subtree.index]]$frame[-5],tree$frame[-5])
 #	trimmed.trees[[subtree.index]]$frame[,-5]-tree$frame[-5]
@@ -120,13 +120,13 @@
 					presence.of.NaNs <- trimmed.trees[[subtree.index]]$frame$n == 0
 					trimmed.trees[[subtree.index]]$frame$dev[presence.of.NaNs] <- 0
 					trimmed.trees[[subtree.index]]$frame$yprob[presence.of.NaNs,] <- 0
-					trimmed.trees[[subtree.index]]$frame$yval[presence.of.NaNs] <- tree$frame$yval[presence.of.NaNs]		#arbitrarily predict everything to class 1, 
+					trimmed.trees[[subtree.index]]$frame$yval[presence.of.NaNs] <- tree$frame$yval[presence.of.NaNs]		#arbitrarily predict everything to class 1,
 
 					R.of.T.t.trimmed <- tree.impurity(	yprob = trimmed.trees[[subtree.index]]$frame$yprob[subtree.leaves.rows.T.F,,drop=FALSE],
 										number.of.observations.at.leaves = trimmed.trees[[subtree.index]]$frame$n[subtree.leaves.rows.T.F],
 										leaf.classes = trimmed.trees[[subtree.index]]$frame$yval[subtree.leaves.rows.T.F],
 										impurity.measure = trim.impurity)
-	
+
 					#evaluate complexity penalty for subtree T.t.trimmed
 					penalty.of.R.of.T.t.trimmed <-	oblique.tree.complexity(	tree = trimmed.trees[[subtree.index]],
 													subtree.internal.node.names = subtree.node.names[[subtree.index]][!(subtree.node.names[[subtree.index]] %in% leaf.node.names)]
@@ -196,7 +196,7 @@
 #x11()
 #par(mfrow=c(1,2))
 #	subtree.leaves <- tree$frame$var == "<leaf>"
-#	print(	oblique.tree:::tree.impurity(   
+#	print(	oblique.tree:::tree.impurity(
 #			yprob                                   = tree$frame$yprob[subtree.leaves,,drop=FALSE],
 #			number.of.observations.at.leaves        = tree$frame$n[subtree.leaves],
 #			leaf.classes                            = tree$frame$yval[subtree.leaves],
@@ -206,7 +206,7 @@
 #before<-tree
 #plot(before,type="u");try(text(before))
 #browser()
-				#node(s) needs pruning, alter	$frame and row.names($frame) to reflect the updated tree, 
+				#node(s) needs pruning, alter	$frame and row.names($frame) to reflect the updated tree,
 				#				$where to the new locations using the old node numbering system
 				#				$y with the correct new predictions
 				#whilst keep a running idea of which nodes have been pruned to allow removal of unused entries in mat and $details in one go
@@ -222,7 +222,7 @@
 #x11()
 #par(mfrow=c(1,2))
 #	subtree.leaves <- tree$frame$var == "<leaf>"
-#	print(	oblique.tree:::tree.impurity(   
+#	print(	oblique.tree:::tree.impurity(
 #			yprob                                   = tree$frame$yprob[subtree.leaves,,drop=FALSE],
 #			number.of.observations.at.leaves        = tree$frame$n[subtree.leaves],
 #			leaf.classes                            = tree$frame$yval[subtree.leaves],
@@ -238,7 +238,7 @@
 			nodes.to.trim.T.F <- g.of.t.for.trims == min.g.of.t
 			number.of.nodes.to.trim <- sum(nodes.to.trim.T.F)
 #		if (number.of.nodes.to.trim > 0) {
-			#node(s) needs to be trimmed, alter	$frame	reflecting the updated tree			##and row.names($frame) 
+			#node(s) needs to be trimmed, alter	$frame	reflecting the updated tree			##and row.names($frame)
 			#					$where	new locations 					##using the old node numbering system
 			#					$y	new predictions
 #			list.of.node.names.to.trim = subtree.node.names[nodes.to.trim.T.F]
@@ -266,7 +266,7 @@
 					tree$frame$dev[rows.to.update] <- list.of.trimmed.trees[[list.index]]$frame$dev[rows.to.update]
 					tree$frame$yval[rows.to.update] <- list.of.trimmed.trees[[list.index]]$frame$yval[rows.to.update]
 					tree$frame$yprob[rows.to.update,] <- list.of.trimmed.trees[[list.index]]$frame$yprob[rows.to.update,]
-		
+
 						#prepare for tree$frame$split
 						coefs <- tree$details[[rows.to.update[1]]]$trim.sequence[dim(tree$details[[rows.to.update[1]]]$trim.sequence)[1],]
 						new.oblique.split <- oblique.split.writer(	coefficients = coefs[c(TRUE,coefs[-1]!=0)],
@@ -290,7 +290,7 @@
 						tree$details[[rows.to.update[1]]] <- new.oblique.split$details
 						tree$frame$var[rows.to.update[1]] <- new.oblique.split$variable
 					}
-		
+
 		#		#update used entires of trim.sequence
 		#		if (dim(tree$details[[rows.to.update[1]]]$trim.sequence)[1] == 1) {
 		#			#set this node to "not an oblique split"
@@ -310,7 +310,7 @@
 #look at tree after trimming or pruning
 #print("just finished trimming or pruning\n");
 #	subtree.leaves <- tree$frame$var == "<leaf>"
-#	print(	oblique.tree:::tree.impurity(   
+#	print(	oblique.tree:::tree.impurity(
 #			yprob                                   = tree$frame$yprob[subtree.leaves,,drop=FALSE],
 #			number.of.observations.at.leaves        = tree$frame$n[subtree.leaves],
 #			leaf.classes                            = tree$frame$yval[subtree.leaves],
@@ -385,7 +385,7 @@
 							y =	 	as.numeric(Y[observations.in.subtree.of.interest] %in% tree$details[[details.index]]$superclass.composition),	#target variable
 							family = 	"binomial",						#logistic regression
 							alpha = 	1,							#no L2 penalisation wanted
-							lambda.min = 	0,
+							lambda.min.ratio = 	0,
 #							thresh = 	1e-03,						#need 1e-04, 1e-03 is not good enough
 							standardize =	FALSE)						#dont want to standardize explanatory variables to have unit variance
 
@@ -496,7 +496,7 @@
 
 
 			#trim just past the desired value of penalty value
-			repeat { 
+			repeat {
 				#calculate complexity of new tree
 				leaf.indicator <- tree$frame$var == "<leaf>"
 				current.complexity <-	oblique.tree.complexity(	tree = tree,

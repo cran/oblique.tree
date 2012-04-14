@@ -15,7 +15,7 @@
 				"model.selection.bic",				#consider oblique splits from ordinary logistic regression models stepAIC'ed with BIC
 				"lasso.aic",					#consider oblique splits from penalized logistic regression models regularized with the lasso (L1) where lambda is chosen by AIC
 				"lasso.bic"),					#consider oblique splits from penalized logistic regression models regularized with the lasso (L1) where lambda is chosen by AIC
-	...) 
+	...)
 {
 	#######################################################################
 	node.split.categorical <- function(
@@ -46,11 +46,11 @@
 
 		#find best allocation of factors to child nodes
 
-		#'number.of.residual.factors' may be 1, i.e. we cannot split on it 
+		#'number.of.residual.factors' may be 1, i.e. we cannot split on it
 		if (number.of.residual.factors > 1) {
 			#evaluate every possible superclass split on this categorical attribute
 			for (superclass.index in 1:(2^(number.of.residual.factors-1)-1)) {
-				#create the composition of the i^th superclass 
+				#create the composition of the i^th superclass
 				superclass.left <- generate.ith.superclass(	R = number.of.residual.factors,
 										superclass.index = superclass.index)
 
@@ -64,7 +64,7 @@
 					#evaluate average impurity of child nodes
 					impurity <- 	(	node.impurity(	class.probabilities = table(Y[child.left.T.F]) / number.in.child.left,
 										impurity.measure = split.impurity
-								) * number.in.child.left + 
+								) * number.in.child.left +
 								node.impurity(	class.probabilities = table(Y[!child.left.T.F]) / number.in.child.right,
 										impurity.measure = split.impurity
 								) * number.in.child.right
@@ -79,9 +79,9 @@
 						split$details <- NULL
 					}
 				}
-			} 
+			}
 		} #else there is only one class, i.e. we cannot split on this categorical attribute
-	
+
 		#return split
 		return(split)
 	}
@@ -90,7 +90,7 @@
 		categorical.attribute,						#ordered categorical attribute
 		Y,								#targets
 		attribute.index)
-	#DESCRIPTION	
+	#DESCRIPTION
 	#	when given dataframe that had model.frame() applied on, so 1st column is class and others are all ordered categorical, the best such split is found
 	#OUTPUT		impurity			numeric impurity value of the best ordered categorical split, Inf means don't use categorical splits
 	#			optimal.variables	name of best categorical attribute to split upon
@@ -114,7 +114,7 @@
 
 		#find best allocation of factors to child nodes
 
-		#'number.of.residual.factors' may be 1, i.e. we cannot split on it 
+		#'number.of.residual.factors' may be 1, i.e. we cannot split on it
 		if (number.of.residual.factors > 1) {
 			#evaluate every possible superclass split on this categorical attribute
 			for (superclass.index in 1:(number.of.residual.factors-1)) {
@@ -132,7 +132,7 @@
 					#evaluate average impurity of child nodes
 					impurity <- 	(	node.impurity(	class.probabilities = table(Y[child.left.T.F]) / number.in.child.left,
 										impurity.measure = split.impurity
-								) * number.in.child.left + 
+								) * number.in.child.left +
 								node.impurity(	class.probabilities = table(Y[!child.left.T.F]) / number.in.child.right,
 										impurity.measure = split.impurity
 								) * number.in.child.right
@@ -146,7 +146,7 @@
 						split$details <- NULL
 					}
 				}
-			} 
+			}
 		} #else there is only one class, i.e. we cannot split on this categorical attribute
 
 		#return split
@@ -157,7 +157,7 @@
 		continuous.attribute,						#continuous attribute
 		Y)								#targets
 	#DESCRIPTION
-	#	when given dataframe that had model.frame() applied on, so 1st column is class and others are all continuous, the best axis parallel split is found	
+	#	when given dataframe that had model.frame() applied on, so 1st column is class and others are all continuous, the best axis parallel split is found
 	#OUTPUT		impurity			numeric impurity value of the best categorical split
 	#			optimal.variables	name of best categorical attribute to split upon
 	#			optimal.split.left		characters explicitly naming optimal split for examples to the left
@@ -217,7 +217,7 @@
 	node.split.continuous.oblique <- function(
 		all.continuous.attributes,					#all continuous attributes
 		Y)								#targets
-	#DESCRIPTION	
+	#DESCRIPTION
 	#	when given dataframe that had model.frame() applied on, so 1st column is class and others are all continuous, the best oblique split with our criteria is found
 	#OUTPUT	impurity			numeric impurity value of the best continuous oblique split, Inf means don't use continuous oblique splits
 	#		optimal.variables	name of best categorical attribute to split upon
@@ -238,7 +238,7 @@
 		number.of.residual.factors <- length(unique.levels)
 
 		#find best allocation of factors to child nodes (upon which linear boundaries can be found)
-		#'number.of.residual.factors' may be 1, i.e. we cannot split on it 
+		#'number.of.residual.factors' may be 1, i.e. we cannot split on it
 		if (number.of.residual.factors > 1) {
 			#evaluate the full oblique splits resulting from every possible superclass allocation
 			design.matrix <- 	cbind(	1,				#create design matrix for glm.fit() to use
@@ -246,7 +246,7 @@
 						)
 
 			for (superclass.index in 1:(2^(number.of.residual.factors-1)-1)) {
-				#create the composition of the i^th superclass 
+				#create the composition of the i^th superclass
 				superclass.left <- generate.ith.superclass(	R = number.of.residual.factors,
 										superclass.index = superclass.index)
 
@@ -260,7 +260,7 @@
 #print(logistic.regression.fit$coef)
 				#fitting to linearly separable data results in NA's which are 0, make them zero
 				logistic.regression.fit$coefficients[is.na(logistic.regression.fit$coefficients)] <- 0
-				
+
 #glmpath$b.corrector[last.row,] is actually quite good!
 				#evaluate allocation to child nodes for this oblique split
 				child.left.T.F <- logistic.regression.fit$linear.predictors < 0
@@ -321,7 +321,7 @@
 #											y=as.numeric(Y %in% best.split$details$superclass.composition),			#target variable
 #											family="binomial",						#logistic regression
 #											alpha=1,							#no L2 penalisation wanted
-#											standardize=FALSE)						
+#											standardize=FALSE)
 #)
 #but i cant get hold of dev!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! cant automatically choose splits within family of subsplits
 
@@ -382,7 +382,7 @@
 							number.in.child.right <- length(child.left.T.F) - number.in.child.left
 
 
-###this doesnt allow lasso to produce a stump, i.e. no split, it only accepts legal splits 
+###this doesnt allow lasso to produce a stump, i.e. no split, it only accepts legal splits
 							#check to see if split is legal
 							if (number.in.child.left >= control$mincut && number.in.child.right >= control$mincut) {
 								#legal split produced, use this split
@@ -433,7 +433,7 @@
 							#evaluate allocations to child nodes for the split used
 							number.in.child.left <- sum(child.left.T.F)
 							number.in.child.right <- length(child.left.T.F) - number.in.child.left
-	
+
 							#check to see if split has been updated
 							if (length(best.split$logistic.regression.fit$coefficients) != length(logistic.regression.fit$coefficients)) {
 								#split updated, does it produce legal splits?
@@ -568,14 +568,14 @@
 		return(best.split)
 	}
 	#######################################################################
-	node.recurse <- function(	
+	node.recurse <- function(
 		X,								#matrix containing data from attributes of the 'nobs' observations
 		Y,								#vector of targets for each observation
 		node.name)							#running counter of the natural naming of nodes in a sequential manner
 	#DESCRIPTION
 	#OUTPUT		alters information in parent frame on the fly
 	{
-		#fill in basic information 
+		#fill in basic information
 		results.frame.row.names[results.frame.row.counter] <<- node.name
 		results.frame.n[results.frame.row.counter] <<- length(Y)
 			class.probabilities <- table(Y) / length(Y)
@@ -618,7 +618,7 @@
 				cutright[results.frame.row.counter] <<- best.split$cutright
 				details[[results.frame.row.counter]] <<- best.split$details
 				results.frame.row.counter <<- results.frame.row.counter + 1
-				
+
 				#recurse on left child
 				node.recurse(	X = X[best.split$child.left.T.F,,drop=FALSE],
 						Y = Y[best.split$child.left.T.F],
@@ -640,11 +640,11 @@
 		model <- FALSE
 	} else {
 		#if 'model' not, create appropriate model frame
-		m <- match.call(expand = FALSE)
+		m <- match.call(expand.dots = FALSE)
 		m$control <- m$method <- m$split.impurity <- m$model <- m$oblique.splits <- m$variable.selection <- m$... <- NULL
 		m[[1]] <- as.name("model.frame.default")
 		m <- eval.parent(m)
-		if (method == "model.frame") 
+		if (method == "model.frame")
 			return(m)
 	}
 
@@ -655,12 +655,12 @@
 
 	#check if interaction terms present
 	Terms <- attr(m, "terms")						#Terms		<	>	contains the terms of the model frame
-	if (any(attr(Terms, "order") > 1)) 
+	if (any(attr(Terms, "order") > 1))
   		stop("trees cannot handle interaction terms")
 
 	#check if multiple responses present
 	Y <- model.extract(m, "response")					#Y 		<	>	contains the targets of each observation
-	if (is.matrix(Y) && ncol(Y) > 1) 
+	if (is.matrix(Y) && ncol(Y) > 1)
 		stop("trees cannot handle multiple responses")
 	ylevels <- levels(Y)							#ylevels 	<	>	contains the levels of the targets
 
@@ -687,7 +687,7 @@
 
 	#check if there are actually any observations and if that number satisfies our controls
 	nobs <- length(Y)							#nobs		<	>	number of observations (including NA's)
-	if (nobs == 0) 
+	if (nobs == 0)
 		stop("no observations from which to fit a model")
 	if (!is.null(control$nobs) && control$nobs < nobs) {
 		stop("control$nobs < number of observations in data")

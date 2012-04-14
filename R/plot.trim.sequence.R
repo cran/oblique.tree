@@ -17,8 +17,8 @@ plot.trim.sequence <- function(x, ..., type = "l", ylim = range(x$dev),
     n <- length(pos)
     maxsize <- max(x$comp)
     if(pos[n] > maxsize) pos[n] <- maxsize
-    axis(1, at = sign*pos, lab = pos, ...)
-    axis(3, at = sign * x$comp, lab = format(signif(x$h, 2)), ...)
+    axis(1, at = sign*pos, labels = pos, ...)
+    axis(3, at = sign * x$comp, labels = format(signif(x$h, 2)), ...)
     invisible()
 }
 
